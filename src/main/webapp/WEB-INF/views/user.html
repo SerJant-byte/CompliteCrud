@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>User</title>
+</head>
+<body>
+
+<h1>User</h1>
+
+<form method="post">
+    <input type="text" name="name">
+    <button type="submit">Update</button>
+</form>
+
+<p th:text="${user.getId()}"></p>
+<p th:text="${user.getName()}"></p>
+
+
+</body>
+</html>
