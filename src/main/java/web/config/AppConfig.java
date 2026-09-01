@@ -10,8 +10,6 @@ import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
-
-
 import javax.sql.DataSource;
 import java.util.Properties;
 
@@ -34,7 +32,7 @@ public class AppConfig {
     public DataSource getDataSource() {
         DriverManagerDataSource driverManagerDataSource = new DriverManagerDataSource();
 
-        driverManagerDataSource.setDriverClassName("com.mysql.cj.jdbc.Driver");
+        driverManagerDataSource.setDriverClassName(environment.getProperty("db.driver-class-name"));
         driverManagerDataSource.setUrl(environment.getProperty("db.url"));
         driverManagerDataSource.setUsername(environment.getProperty("db.username"));
         driverManagerDataSource.setPassword(environment.getProperty("db.password"));
@@ -51,9 +49,10 @@ public class AppConfig {
         Properties properties = new Properties();
         // Создали пустой контейнер настроек, потом его заполнили и передали в обьект
         // который Спринг будет использовать для настройки EntityManagerFactory
-        properties.setProperty("hibernate.dialect", "org.hibernate.dialect.MySQL8Dialect");
-        properties.setProperty("hibernate.show_sql", "true");
-        properties.setProperty("hibernate.hbm2ddl.auto", "update");
+        properties.setProperty("hibernate.dialect", environment.getProperty("db.hibernate.dialect"));
+        // исправил по замечанию ментора, ключ берем из db.properties
+        properties.setProperty("hibernate.show_sql", environment.getProperty("db.hibernate.show_sql"));
+        properties.setProperty("hibernate.hbm2ddl.auto", environment.getProperty("db.hibernate.hbm2ddl.auto"));
         localContainerEntityManagerFactoryBean.setJpaProperties(properties);
         localContainerEntityManagerFactoryBean.setJpaVendorAdapter(hibernateJpaVendorAdapter);
         //Связываем фабрику с Hibernate
