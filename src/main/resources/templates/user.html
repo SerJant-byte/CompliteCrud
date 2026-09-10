@@ -9,7 +9,8 @@
 <h1>User</h1>
 
 <form method="post">
-    <input type="text" name="name">
+    <input type="hidden" name="id" th:value="${user.getId()}">
+    <input type="text" name="name" th:value="${user.getName()}">
     <button type="submit">Update</button>
 </form>
 

@@ -26,31 +26,31 @@ public class UserController {
     }
 
     @PostMapping
-    public String addUsersControler(@RequestParam Long id, @RequestParam String name) {
-        User user = new User(id, name);
+    public String addUsersControler( @RequestParam String name) {
+        User user = new User(name);
         userService.addUser(user);
         return "redirect:/users/";
     }
-
-    @GetMapping("/{id}/edit")
-    public String getUserId (@PathVariable Long id, Model model) {
+    //переделал, Id приходит как RequestParam
+    @GetMapping("/edit")
+    public String getUserId (@RequestParam Long id, Model model) {
         User user = userService.getUser(id);
         model.addAttribute("user", user);
         return "user";
     }
-
-    @PostMapping("/{id}/edit")
-    public String updateUser(@PathVariable Long id, @RequestParam String name) {
+//переделал, Id приходит как RequestParam
+    @PostMapping("/edit")
+    public String updateUser(@RequestParam Long id, @RequestParam String name) {
         User user = userService.getUser(id);
         user.setName(name);
         userService.updateUser(user);
         return "redirect:/users/";
     }
-
-    @PostMapping("/{id}/delete")
-    public String deleteUser(@PathVariable Long id) {
+//переделал, Id приходит как RequestParam
+    @PostMapping("/delete")
+    public String deleteUser(@RequestParam Long id) {
         userService.deleteUser(id);
         return "redirect:/users/";
     }
-
+// как я понял, теперь пользователю в браузере не нужно вводить id, но браузер сам отправляет на сервер его
 }
